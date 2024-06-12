@@ -1,0 +1,191 @@
+================================================================================
+Running 1x3
+
+DROP masks for TW and PW tl.loads: 2-3% reduction
+Updated 1 path from the index
+Overriding kernel with file _ragged_hstu_attn_fwd.ttgir
+P50 latency is 1.41821 ms
+P20 latency is 1.40976 ms
+P80 latency is 1.42576 ms
+P50 latency is 1.39946 ms
+P20 latency is 1.39507 ms
+P80 latency is 1.40363 ms
+P50 latency is 1.41133 ms
+P20 latency is 1.40725 ms
+P80 latency is 1.41437 ms
+12.68484
+Overhead Reduction for HSTU: 2.62736708295239696300%
+
+DROP masks for TW and PW tl.loads: 2-3% reduction
+Updated 1 path from the index
+Overriding kernel with file _ragged_hstu_attn_fwd.ttgir
+P50 latency is 1.42451 ms
+P20 latency is 1.41862 ms
+P80 latency is 1.43057 ms
+P50 latency is 1.42056 ms
+P20 latency is 1.41536 ms
+P80 latency is 1.42502 ms
+P50 latency is 1.41098 ms
+P20 latency is 1.40544 ms
+P80 latency is 1.41725 ms
+12.76831
+Overhead Reduction for HSTU: 1.98662635074087806200%
+
+DROP masks for TW and PW tl.loads: 2-3% reduction
+Updated 1 path from the index
+Overriding kernel with file _ragged_hstu_attn_fwd.ttgir
+P50 latency is 1.39723 ms
+P20 latency is 1.39360 ms
+P80 latency is 1.40051 ms
+P50 latency is 1.41347 ms
+P20 latency is 1.40886 ms
+P80 latency is 1.41933 ms
+P50 latency is 1.40790 ms
+P20 latency is 1.40362 ms
+P80 latency is 1.41110 ms
+12.65562
+Overhead Reduction for HSTU: 2.85166855887453165000%
+
+================================================================================
+Running 2x3
+
+KEEP PW mask, replace TW with local_gather: 3.6-4.4% reduction
+Updated 1 path from the index
+Overriding kernel with file _ragged_hstu_attn_fwd.ttgir
+P50 latency is 1.38022 ms
+P20 latency is 1.37540 ms
+P80 latency is 1.38479 ms
+P50 latency is 1.39040 ms
+P20 latency is 1.38546 ms
+P80 latency is 1.39508 ms
+P50 latency is 1.38611 ms
+P20 latency is 1.38133 ms
+P80 latency is 1.39086 ms
+12.46965
+Overhead Reduction for HSTU: 4.27923000573419584300%
+
+KEEP PW mask, replace TW with local_gather: 3.6-4.4% reduction
+Updated 1 path from the index
+Overriding kernel with file _ragged_hstu_attn_fwd.ttgir
+P50 latency is 1.38410 ms
+P20 latency is 1.37891 ms
+P80 latency is 1.38986 ms
+P50 latency is 1.38355 ms
+P20 latency is 1.37768 ms
+P80 latency is 1.39055 ms
+P50 latency is 1.37234 ms
+P20 latency is 1.36759 ms
+P80 latency is 1.37644 ms
+12.42102
+Overhead Reduction for HSTU: 4.65252845796189638400%
+
+KEEP PW mask, replace TW with local_gather: 3.6-4.4% reduction
+Updated 1 path from the index
+Overriding kernel with file _ragged_hstu_attn_fwd.ttgir
+P50 latency is 1.38278 ms
+P20 latency is 1.37676 ms
+P80 latency is 1.38887 ms
+P50 latency is 1.39382 ms
+P20 latency is 1.38813 ms
+P80 latency is 1.39994 ms
+P50 latency is 1.37264 ms
+P20 latency is 1.36895 ms
+P80 latency is 1.37571 ms
+12.44760
+Overhead Reduction for HSTU: 4.44849241312923587900%
+
+================================================================================
+Running 3x3
+
+DROP PW mask, replace TW with local_gather: 3.6-8% reduction, but sometimes negative or 0... weird. Should be 4.5% or so.
+Updated 1 path from the index
+Overriding kernel with file _ragged_hstu_attn_fwd.ttgir
+P50 latency is 1.39645 ms
+P20 latency is 1.39126 ms
+P80 latency is 1.40242 ms
+P50 latency is 1.38699 ms
+P20 latency is 1.38230 ms
+P80 latency is 1.39053 ms
+P50 latency is 1.38902 ms
+P20 latency is 1.38433 ms
+P80 latency is 1.39437 ms
+12.51767
+Overhead Reduction for HSTU: 3.91061409629610865400%
+
+DROP PW mask, replace TW with local_gather: 3.6-8% reduction, but sometimes negative or 0... weird. Should be 4.5% or so.
+Updated 1 path from the index
+Overriding kernel with file _ragged_hstu_attn_fwd.ttgir
+P50 latency is 1.36909 ms
+P20 latency is 1.36482 ms
+P80 latency is 1.37206 ms
+P50 latency is 1.38298 ms
+P20 latency is 1.37773 ms
+P80 latency is 1.38908 ms
+P50 latency is 1.37562 ms
+P20 latency is 1.37161 ms
+P80 latency is 1.37922 ms
+12.38221
+Overhead Reduction for HSTU: 4.95044564757647705500%
+
+DROP PW mask, replace TW with local_gather: 3.6-8% reduction, but sometimes negative or 0... weird. Should be 4.5% or so.
+Updated 1 path from the index
+Overriding kernel with file _ragged_hstu_attn_fwd.ttgir
+P50 latency is 1.38422 ms
+P20 latency is 1.37808 ms
+P80 latency is 1.38885 ms
+P50 latency is 1.38411 ms
+P20 latency is 1.37846 ms
+P80 latency is 1.39011 ms
+P50 latency is 1.37459 ms
+P20 latency is 1.36934 ms
+P80 latency is 1.37853 ms
+12.42629
+Overhead Reduction for HSTU: 4.61207435877949906100%
+
+================================================================================
+Running 4x3
+
+local_gather for TW AND PW: 12.6% reduction
+Updated 1 path from the index
+Overriding kernel with file _ragged_hstu_attn_fwd.ttgir
+P50 latency is 1.28797 ms
+P20 latency is 1.28304 ms
+P80 latency is 1.29334 ms
+P50 latency is 1.28333 ms
+P20 latency is 1.27875 ms
+P80 latency is 1.28858 ms
+P50 latency is 1.27824 ms
+P20 latency is 1.27267 ms
+P80 latency is 1.28507 ms
+11.55099
+Overhead Reduction for HSTU: 11.33113944689190465200%
+
+local_gather for TW AND PW: 12.6% reduction
+Updated 0 paths from the index
+Overriding kernel with file _ragged_hstu_attn_fwd.ttgir
+P50 latency is 1.26707 ms
+P20 latency is 1.26259 ms
+P80 latency is 1.27110 ms
+P50 latency is 1.28350 ms
+P20 latency is 1.27849 ms
+P80 latency is 1.28966 ms
+P50 latency is 1.27920 ms
+P20 latency is 1.27356 ms
+P80 latency is 1.28502 ms
+11.49019
+Overhead Reduction for HSTU: 11.79785846592221912700%
+
+local_gather for TW AND PW: 12.6% reduction
+Updated 1 path from the index
+Overriding kernel with file _ragged_hstu_attn_fwd.ttgir
+P50 latency is 1.27430 ms
+P20 latency is 1.27023 ms
+P80 latency is 1.27883 ms
+P50 latency is 1.27750 ms
+P20 latency is 1.27222 ms
+P80 latency is 1.28355 ms
+P50 latency is 1.27626 ms
+P20 latency is 1.27184 ms
+P80 latency is 1.27980 ms
+11.48453
+Overhead Reduction for HSTU: 11.84130632197010695400%
