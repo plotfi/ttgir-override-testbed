@@ -16,6 +16,7 @@ This is a request for comment on a new ttgir instruction we have been experiment
 
 The TTGIR tablegen looks something like:
 
+```
 def TTG_LocalGatherOp : TTG_Op<"local_gather", [ ... ]> {
     let summary = "Gather from a local memory buffer into a distributed tensor";
     let arguments = (
@@ -25,6 +26,7 @@ def TTG_LocalGatherOp : TTG_Op<"local_gather", [ ... ]> {
         Optional<TT_Type>:$other
     );
 }
+```
 
 Because the base source argument is a memdesc that means that local_gather works in conjunction with local_alloc or a async_copy_global_to_local. The most obvious way to use a local_gather instead of a global gather via tt::LoadOp is in the body of a loop. An example of a gather kernel that could stand to benefit from local gathering from shared memory is the following:
 
