@@ -106,6 +106,7 @@ if [[ $RUN_NCU -eq 1 ]]; then
   rm -rf ./ncu_tmp; mkdir ncu_tmp
   export TMPDIR=`pwd`/ncu_tmp
   CUDA_INJECTION64_PATH=none ncu --set full --target-processes all -o $BENCH.prof -f --import-source yes python ragged_hstu_attention_bench.py
+  git checkout hammer/generative_recommenders/ops/triton/triton_ragged_hstu*
   exit 0
 fi
 
@@ -115,6 +116,7 @@ if [[ $RUN_ONCE -eq 1 ]]; then
   python ragged_hstu_attention_bench.py
   find $TRITON_CACHE_DIR -type f -iname "*.ptx" -print0 -exec cp {} ./PTX/$BENCH.ptx \;
   find $TRITON_CACHE_DIR -type f -iname "*.amdgcn" -print0 -exec cp {} ./AMDGCN/$BENCH.amdgcn \;
+  git checkout hammer/generative_recommenders/ops/triton/triton_ragged_hstu*
   exit 0
 fi
 
@@ -122,6 +124,7 @@ if [[ $RUN_DEBUG -eq 1 ]]; then
   # ~/opt/tools/cgdb/build/cgdb/cgdb --args
   # gdb --args
   lldb -- python ragged_hstu_attention_bench.py
+  git checkout hammer/generative_recommenders/ops/triton/triton_ragged_hstu*
   exit 0
 fi
 
@@ -142,3 +145,4 @@ xargs -I% echo "100 - (100 * ((% 0) / ($TOTAL_RUN_BASE * 3)))" | bc -l | \
   xargs -I$ echo "Overhead Reduction for HSTU: $%"
 # rm -rf $TRITON_CACHE_DIR ./hammer/generative_recommenders/ops/triton/__pycache__
 rm -f hstu*.out
+git checkout hammer/generative_recommenders/ops/triton/triton_ragged_hstu*
