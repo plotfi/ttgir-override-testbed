@@ -1,0 +1,52 @@
+diff --git a/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention.py b/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention.py
+index 1a377a5..fd6485e 100644
+--- a/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention.py
++++ b/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention.py
+@@ -28,7 +28,7 @@ import triton.language as tl
+ 
+ try:
+     # @manual=//triton:triton
+-    from triton.language.extra.cuda.libdevice import fast_dividef
++    from triton.language.extra.libdevice import fast_dividef
+ except ImportError:
+     # pyre-ignore: Undefined import [21]
+     # @manual=//triton:triton
+diff --git a/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_128x128x1x8.py b/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_128x128x1x8.py
+index 1a377a5..fd6485e 100644
+--- a/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_128x128x1x8.py
++++ b/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_128x128x1x8.py
+@@ -28,7 +28,7 @@ import triton.language as tl
+ 
+ try:
+     # @manual=//triton:triton
+-    from triton.language.extra.cuda.libdevice import fast_dividef
++    from triton.language.extra.libdevice import fast_dividef
+ except ImportError:
+     # pyre-ignore: Undefined import [21]
+     # @manual=//triton:triton
+diff --git a/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_64x64x2x4.py b/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_64x64x2x4.py
+index ee463ac..bf5a8cb 100644
+--- a/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_64x64x2x4.py
++++ b/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_64x64x2x4.py
+@@ -28,7 +28,7 @@ import triton.language as tl
+ 
+ try:
+     # @manual=//triton:triton
+-    from triton.language.extra.cuda.libdevice import fast_dividef
++    from triton.language.extra.libdevice import fast_dividef
+ except ImportError:
+     # pyre-ignore: Undefined import [21]
+     # @manual=//triton:triton
+diff --git a/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_base.py b/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_base.py
+index 3776131..0122dae 100644
+--- a/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_base.py
++++ b/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_base.py
+@@ -28,7 +28,7 @@ import triton.language as tl
+ 
+ try:
+     # @manual=//triton:triton
+-    from triton.language.extra.cuda.libdevice import fast_dividef
++    from triton.language.extra.libdevice import fast_dividef
+ except ImportError:
+     # pyre-ignore: Undefined import [21]
+     # @manual=//triton:triton
