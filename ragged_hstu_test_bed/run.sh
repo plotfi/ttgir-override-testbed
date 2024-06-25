@@ -138,6 +138,7 @@ python ragged_hstu_attention_bench.py 2>&1 | tee hstu2.out
 export CUDA_VISIBLE_DEVICES=$(($RANDOM % 8))
 python ragged_hstu_attention_bench.py 2>&1 | tee hstu3.out
 
+echo -n "TOTAL RUNNING TIME FOR ALL 3x3 RUNS: "
 cat hstu*.out | grep latency | cut -f4 -d' ' | tr '\n' '+' | xargs -I% echo "% 0" | bc -l
 
 cat hstu*.out | grep latency | cut -f4 -d' ' | tr '\n' '+' | \
