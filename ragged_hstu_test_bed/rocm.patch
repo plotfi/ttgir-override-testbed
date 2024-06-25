@@ -1,7 +1,7 @@
-diff --git a/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention.py b/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention.py
+diff --git a/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_128x128x1x8.py b/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_128x128x1x8.py
 index 1a377a5..fd6485e 100644
---- a/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention.py
-+++ b/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention.py
+--- a/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_128x128x1x8.py
++++ b/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_128x128x1x8.py
 @@ -28,7 +28,7 @@ import triton.language as tl
  
  try:
@@ -11,10 +11,10 @@ index 1a377a5..fd6485e 100644
  except ImportError:
      # pyre-ignore: Undefined import [21]
      # @manual=//triton:triton
-diff --git a/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_128x128x1x8.py b/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_128x128x1x8.py
-index 1a377a5..fd6485e 100644
---- a/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_128x128x1x8.py
-+++ b/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_128x128x1x8.py
+diff --git a/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_32x32x2x2.py b/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_32x32x2x2.py
+index 3faafc1..cfa7179 100644
+--- a/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_32x32x2x2.py
++++ b/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_32x32x2x2.py
 @@ -28,7 +28,7 @@ import triton.language as tl
  
  try:
@@ -24,10 +24,10 @@ index 1a377a5..fd6485e 100644
  except ImportError:
      # pyre-ignore: Undefined import [21]
      # @manual=//triton:triton
-diff --git a/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_64x64x2x4.py b/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_64x64x2x4.py
+diff --git a/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_64x64x2x4.py b/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_64x64x2x4.py
 index ee463ac..bf5a8cb 100644
---- a/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_64x64x2x4.py
-+++ b/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_64x64x2x4.py
+--- a/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_64x64x2x4.py
++++ b/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_64x64x2x4.py
 @@ -28,7 +28,7 @@ import triton.language as tl
  
  try:
@@ -37,10 +37,10 @@ index ee463ac..bf5a8cb 100644
  except ImportError:
      # pyre-ignore: Undefined import [21]
      # @manual=//triton:triton
-diff --git a/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_base.py b/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_base.py
+diff --git a/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_base.py b/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_base.py
 index 3776131..0122dae 100644
---- a/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_base.py
-+++ b/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_base.py
+--- a/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_base.py
++++ b/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_base.py
 @@ -28,7 +28,7 @@ import triton.language as tl
  
  try:

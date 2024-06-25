@@ -1,6 +1,7 @@
 #blocked = #triton_gpu.blocked<{sizePerThread = [1, 8], threadsPerWarp = [4, 16], warpsPerCTA = [4, 1], order = [1, 0]}>
 #blocked1 = #triton_gpu.blocked<{sizePerThread = [8, 1], threadsPerWarp = [16, 4], warpsPerCTA = [1, 4], order = [0, 1]}>
 #blocked2 = #triton_gpu.blocked<{sizePerThread = [1, 1], threadsPerWarp = [64, 1], warpsPerCTA = [1, 4], order = [0, 1]}>
+#blocked3 = #triton_gpu.blocked<{sizePerThread = [1, 8], threadsPerWarp = [1, 64], warpsPerCTA = [1, 4], order = [1, 0]}>
 #loc = loc("/home/plotfi/opt/dev/triton-local-gather/ttgir-override-testbed/ragged_hstu_test_bed/hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention.py":369:0)
 #mma = #triton_gpu.amd_mfma<{versionMajor = 3, versionMinor = 0, warpsPerCTA = [4, 1], instrShape = [32, 32], isTransposed = true}>
 #shared = #triton_gpu.shared<{vec = 4, perPhase = 1, maxPhase = 16, order = [1, 0], hasLeadingOffset = false}>
@@ -87,6 +88,13 @@ module attributes {"triton_gpu.num-ctas" = 1 : i32, "triton_gpu.num-warps" = 4 :
     %51 = tt.addptr %49, %18 : tensor<64x!tt.ptr<i64>, #triton_gpu.slice<{dim = 0, parent = #blocked2}>>, tensor<64xi32, #triton_gpu.slice<{dim = 0, parent = #blocked2}>> loc(#loc36)
     %52 = tt.addptr %50, %cst_5 : tensor<64x!tt.ptr<i64>, #triton_gpu.slice<{dim = 1, parent = #blocked2}>>, tensor<64xi32, #triton_gpu.slice<{dim = 1, parent = #blocked2}>> loc(#loc37)
     %53 = tt.load %52, %44 : tensor<64x!tt.ptr<i64>, #triton_gpu.slice<{dim = 1, parent = #blocked2}>> loc(#loc38)
+    %301 = tt.make_range {end = 2048 : i32, start = 0 : i32} : tensor<2048xi32, #triton_gpu.slice<{dim = 0, parent = #blocked3}>>
+    %302 = tt.expand_dims %301 {axis = 0 : i32} : tensor<2048xi32, #triton_gpu.slice<{dim = 0, parent = #blocked3}>> -> tensor<1x2048xi32, #blocked3>
+    %303 = tt.splat %arg5 : !tt.ptr<bf16> -> tensor<1x2048x!tt.ptr<bf16>, #blocked3>
+    %304 = arith.extsi %302 : tensor<1x2048xi32, #blocked3> to tensor<1x2048xi64, #blocked3>
+    %305 = tt.addptr %303, %304 : tensor<1x2048x!tt.ptr<bf16>, #blocked3>, tensor<1x2048xi64, #blocked3>
+    %401 = tt.load %305 : tensor<1x2048x!tt.ptr<bf16>, #blocked3>
+    %402 = triton_gpu.local_alloc %401 : (tensor<1x2048xbf16, #blocked3>) -> !tt.memdesc<1x2048xbf16, #shared>
     %54 = tt.splat %29 : !tt.ptr<bf16> -> tensor<64x128x!tt.ptr<bf16>, #blocked> loc(#loc39)
     %55 = tt.splat %31 : i64 -> tensor<64xi64, #triton_gpu.slice<{dim = 1, parent = #blocked}>> loc(#loc39)
     %56 = arith.extsi %15 : tensor<64xi32, #triton_gpu.slice<{dim = 1, parent = #blocked}>> to tensor<64xi64, #triton_gpu.slice<{dim = 1, parent = #blocked}>> loc(#loc39)
@@ -157,6 +165,13 @@ module attributes {"triton_gpu.num-ctas" = 1 : i32, "triton_gpu.num-warps" = 4 :
     %114 = arith.extsi %113 : i32 to i64 loc(#loc160)
     %115 = tt.splat %114 : i64 -> tensor<64x64xi64, #blocked2> loc(#loc160)
     %116 = tt.splat %arg6 : !tt.ptr<bf16> -> tensor<64x64x!tt.ptr<bf16>, #blocked2> loc(#loc161)
+    %701 = tt.make_range {end = 4096 : i32, start = 0 : i32} : tensor<4096xi32, #triton_gpu.slice<{dim = 0, parent = #blocked3}>>
+    %702 = tt.expand_dims %701 {axis = 0 : i32} : tensor<4096xi32, #triton_gpu.slice<{dim = 0, parent = #blocked3}>> -> tensor<1x4096xi32, #blocked3>
+    %703 = tt.splat %arg6 : !tt.ptr<bf16> -> tensor<1x4096x!tt.ptr<bf16>, #blocked3>
+    %704 = arith.extsi %702 : tensor<1x4096xi32, #blocked3> to tensor<1x4096xi64, #blocked3>
+    %705 = tt.addptr %703, %704 : tensor<1x4096x!tt.ptr<bf16>, #blocked3>, tensor<1x4096xi64, #blocked3>
+    %801 = tt.load %705 : tensor<1x4096x!tt.ptr<bf16>, #blocked3>
+    %802 = triton_gpu.local_alloc %801 : (tensor<1x4096xbf16, #blocked3>) -> !tt.memdesc<1x4096xbf16, #shared>
     %117 = arith.sitofp %arg23 : i32 to f32 loc(#loc162)
     %118 = arith.divf %cst_8, %117 : f32 loc(#loc162)
     %119 = tt.splat %118 : f32 -> tensor<64x64xf32, #mma> loc(#loc163)
@@ -209,8 +224,8 @@ module attributes {"triton_gpu.num-ctas" = 1 : i32, "triton_gpu.num-warps" = 4 :
       %188 = tt.broadcast %187 : tensor<1x64xi1, #blocked2> -> tensor<64x64xi1, #blocked2> loc(#loc151)
       %189 = arith.andi %101, %188 : tensor<64x64xi1, #blocked2> loc(#loc151)
       %190 = tt.addptr %102, %186 : tensor<64x64x!tt.ptr<bf16>, #blocked2>, tensor<64x64xi32, #blocked2> loc(#loc152)
-      %191 = tt.load %190, %189 : tensor<64x64x!tt.ptr<bf16>, #blocked2> loc(#loc183)
-      %192 = arith.extf %191 : tensor<64x64xbf16, #blocked2> to tensor<64x64xf32, #blocked2> loc(#loc184)
+      %500 = triton_gpu.local_gather %402[%186], %189 : (!tt.memdesc<1x2048xbf16, #shared>, tensor<64x64xi32, #blocked2>, tensor<64x64xi1, #blocked2>) -> tensor<64x64xbf16, #blocked2> loc(#loc180)
+      %192 = arith.extf %500 : tensor<64x64xbf16, #blocked2> to tensor<64x64xf32, #blocked2> loc(#loc184)
       %193 = arith.addf %192, %cst_9 : tensor<64x64xf32, #blocked2> loc(#loc184)
       %194 = arith.addi %18, %169 : tensor<64xi32, #triton_gpu.slice<{dim = 0, parent = #blocked2}>> loc(#loc185)
       %195 = arith.extsi %194 : tensor<64xi32, #triton_gpu.slice<{dim = 0, parent = #blocked2}>> to tensor<64xi64, #triton_gpu.slice<{dim = 0, parent = #blocked2}>> loc(#loc186)
@@ -226,8 +241,8 @@ module attributes {"triton_gpu.num-ctas" = 1 : i32, "triton_gpu.num-warps" = 4 :
       %205 = arith.cmpi slt, %204, %115 : tensor<64x64xi64, #blocked2> loc(#loc160)
       %206 = arith.select %205, %204, %115 : tensor<64x64xi1, #blocked2>, tensor<64x64xi64, #blocked2> loc(#loc192)
       %207 = tt.addptr %116, %206 : tensor<64x64x!tt.ptr<bf16>, #blocked2>, tensor<64x64xi64, #blocked2> loc(#loc161)
-      %208 = tt.load %207, %189 : tensor<64x64x!tt.ptr<bf16>, #blocked2> loc(#loc193)
-      %209 = arith.extf %208 : tensor<64x64xbf16, #blocked2> to tensor<64x64xf32, #blocked2> loc(#loc194)
+      %800 = triton_gpu.local_gather %802[%206], %189 : (!tt.memdesc<1x4096xbf16, #shared>, tensor<64x64xi64, #blocked2>, tensor<64x64xi1, #blocked2>) -> tensor<64x64xbf16, #blocked2> loc(#loc180)
+      %209 = arith.extf %800 : tensor<64x64xbf16, #blocked2> to tensor<64x64xf32, #blocked2> loc(#loc194)
       %210 = arith.addf %193, %209 : tensor<64x64xf32, #blocked2> loc(#loc194)
       %211 = triton_gpu.convert_layout %210 : tensor<64x64xf32, #blocked2> -> tensor<64x64xf32, #mma> loc(#loc194)
       %212 = arith.addf %168, %211 : tensor<64x64xf32, #mma> loc(#loc195)
