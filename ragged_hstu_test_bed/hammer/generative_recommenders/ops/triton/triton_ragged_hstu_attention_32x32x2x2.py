@@ -38,9 +38,9 @@ except ImportError:
 def _get_fw_configs() -> List[triton.Config]:  # noqa: C901
     return [
         triton.Config(
-            {"BLOCK_M": 64, "BLOCK_N": 64},
+            {"BLOCK_M": 32, "BLOCK_N": 32},
             num_stages=2,
-            num_warps=4,
+            num_warps=2,
         ),
     ]
 

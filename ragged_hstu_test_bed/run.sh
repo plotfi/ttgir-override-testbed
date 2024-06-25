@@ -12,10 +12,12 @@ export CUDA_VISIBLE_DEVICES=$(($RANDOM % 8))
 
 HSTU_OVERRIDE_FILE=./_triton/override/cdaeab8c4765d8de364c7f0b39651b55ff5d6d5ed6e2341b1bae05029098ceb6/_ragged_hstu_attn_fwd.ttgir
 HSTU_OVERRIDE_FILE_128x128x1x8=./_triton/override/2d6e2950bb6d59995d363b3a3935309d13f9be4ec25b8d6cc4008cda2d5a05e6/_ragged_hstu_attn_fwd.ttgir
+HSTU_OVERRIDE_FILE_32x32x2x2=./_triton/override/ed17ebb3a69f0d0b7d116894712de989509539327a9a5fe60511cf55cc90a654/_ragged_hstu_attn_fwd.ttgir
 BENCH=$HSTU_BENCH_EXPERIMENT
 TOTAL_RUN_BASE=4.34237
 
 cp hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_64x64x2x4.py hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention.py
+# cp hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_32x32x2x2.py hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention.py
 
 if [[ $BENCH -eq 1 ]]; then
   echo "DROP masks for TW and PW tl.loads: 2-3% reduction"
@@ -71,6 +73,20 @@ elif [[ $BENCH -eq 5128 ]]; then
   git checkout $HSTU_OVERRIDE_FILE
   cp hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_128x128x1x8.py hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention.py
   cp ttgir/_ragged_hstu_attn_fwd_orig_128_128_1_8.ttgir $HSTU_OVERRIDE_FILE
+elif [[ $BENCH -eq 432 ]]; then
+  HSTU_OVERRIDE_FILE=$HSTU_OVERRIDE_FILE_32x32x2x2
+  TOTAL_RUN_BASE=(14.70786/3)
+  echo "local_gather for TW AND PW, block 32x32x2x2: ???% reduction"
+  git checkout $HSTU_OVERRIDE_FILE
+  cp hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_32x32x2x2.py hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention.py
+  cp ttgir/_ragged_hstu_attn_fwd_smem_TW_PW_local_gather_32_32_2_2.ttgir $HSTU_OVERRIDE_FILE
+elif [[ $BENCH -eq 532 ]]; then
+  HSTU_OVERRIDE_FILE=$HSTU_OVERRIDE_FILE_32x32x2x2
+  TOTAL_RUN_BASE=(14.70786/3)
+  echo "Original HSTU ttgir dump, block 32x32x2x2: should be 0% change"
+  git checkout $HSTU_OVERRIDE_FILE
+  cp hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention_32x32x2x2.py hammer/generative_recommenders/ops/triton/triton_ragged_hstu_attention.py
+  cp ttgir/_ragged_hstu_attn_fwd_orig_32_32_2_2.ttgir $HSTU_OVERRIDE_FILE
 else
   echo "Running what's at $HSTU_OVERRIDE_FILE"
 fi
