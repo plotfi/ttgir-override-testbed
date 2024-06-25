@@ -2,8 +2,8 @@
 
 # export TRITON_CACHE_DIR=`pwd`/triton_cache_dir
 export TRITON_CACHE_DIR=~/.triton
-export TRITON_KERNEL_DUMP=0
-export TRITON_KERNEL_OVERRIDE=1
+export TRITON_KERNEL_DUMP=1
+export TRITON_KERNEL_OVERRIDE=0
 
 export MLIR_ENABLE_DIAGNOSTICS=1
 export MLIR_ENABLE_DUMP=0

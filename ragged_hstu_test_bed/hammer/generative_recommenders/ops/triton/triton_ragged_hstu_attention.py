@@ -28,7 +28,7 @@ import triton.language as tl
 
 try:
     # @manual=//triton:triton
-    from triton.language.extra.libdevice import fast_dividef
+    from triton.language.extra.cuda.libdevice import fast_dividef
 except ImportError:
     # pyre-ignore: Undefined import [21]
     # @manual=//triton:triton
@@ -38,9 +38,9 @@ except ImportError:
 def _get_fw_configs() -> List[triton.Config]:  # noqa: C901
     return [
         triton.Config(
-            {"BLOCK_M": 32, "BLOCK_N": 32},
+            {"BLOCK_M": 64, "BLOCK_N": 64},
             num_stages=2,
-            num_warps=2,
+            num_warps=4,
         ),
     ]
 
