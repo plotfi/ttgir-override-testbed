@@ -115,11 +115,21 @@ def main(
     time_bucket_incr = 60
     time_bucket_div = 1.0
     timestamps = generate_hstu_timestamps(batch_size, int(lengths.max().item()))
+    tw_mask: torch.Tensor = torch.zeros(
+        (num_buckets + 1, ),
+        device="cuda",
+        dtype=torch.bool,
+    )
     ts_weights: torch.Tensor = (torch.empty(
         (num_buckets + 1, ),
         device="cuda",
         dtype=torch.float32,
     ).uniform_(-0.1, 0.1).to(dtype=torch.bfloat16))
+    pw_mask: torch.Tensor = torch.zeros(
+        (2 * max_pos_ind - 1, ),
+        device="cuda",
+        dtype=torch.bool,
+    )
     pos_weights: torch.Tensor = (torch.empty(
         (2 * max_pos_ind - 1, ),
         device="cuda",
@@ -179,6 +189,8 @@ def main(
             num_targets,
             None,
             relative_bias_type,
+            tw_mask,
+            pw_mask,
         )
         fn = lambda: _RaggedAttentionRelativeBiasFunction.apply(
             max_seq_len,
@@ -201,6 +213,8 @@ def main(
             num_targets,
             None,
             relative_bias_type,
+            tw_mask,
+            pw_mask,
         )
     else:
         out1 = _RaggedAttentionFunction.apply(

@@ -418,6 +418,8 @@ def _ragged_hstu_attn_fwd(  # noqa C901
     BLOCK_D_V: tl.constexpr,
     BLOCK_M: tl.constexpr,
     BLOCK_N: tl.constexpr,
+    tw_mask,
+    pw_mask,
 ):
     # M_CTX == N_CTX
     off_hz = tl.program_id(1)
@@ -512,6 +514,18 @@ def _ragged_hstu_attn_fwd(  # noqa C901
             high = seq_len
             K_block_ptr = tl.advance(K_block_ptr, (0, low))
             V_block_ptr = tl.advance(V_block_ptr, (low, 0))
+
+    tw_bucket_range = tl.arange(0, 2048)
+    tw_preload = tl.load(TW + tw_bucket_range,
+                         eviction_policy='evict_last', volatile=True)
+    _tw_mask = tl.load(tw_mask + tw_bucket_range)
+    tl.store(TW + tw_bucket_range, tw_preload, mask=(_tw_mask < 0))
+
+    pw_bucket_range = tl.arange(0, 4096)
+    pw_preload = tl.load(PW + pw_bucket_range,
+                         eviction_policy='evict_last', volatile=True)
+    _pw_mask = tl.load(pw_mask + pw_bucket_range)
+    tl.store(PW + pw_bucket_range, pw_preload, mask=(_pw_mask < 0))
 
     # pyre-ignore[61]
     for start_n in range(low, high, BLOCK_N):
@@ -771,6 +785,8 @@ class _RaggedAttentionRelativeBiasFunction(torch.autograd.Function):
         num_targets: Optional[torch.Tensor],
         attn_scale: Optional[torch.Tensor],
         relative_bias_type: str,
+        tw_mask: torch.Tensor,
+        pw_mask: torch.Tensor,
     ) -> torch.Tensor:
         Z = timestamps.size(0)
         N = timestamps.size(1) - 1
@@ -845,5 +861,7 @@ class _RaggedAttentionRelativeBiasFunction(torch.autograd.Function):
             ALLOW_TF32=torch.backends.cuda.matmul.allow_tf32,
             BLOCK_D_Q=DimQ,
             BLOCK_D_V=DimV,
+            tw_mask=tw_mask,
+            pw_mask=pw_mask,
         )
         return out
