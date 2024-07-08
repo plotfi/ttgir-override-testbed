@@ -517,15 +517,19 @@ def _ragged_hstu_attn_fwd(  # noqa C901
 
     tw_bucket_range = tl.arange(0, 2048)
     tw_preload = tl.load(TW + tw_bucket_range,
-                         eviction_policy='evict_last', volatile=True)
+                         eviction_policy='evict_last')
     _tw_mask = tl.load(tw_mask + tw_bucket_range)
-    tl.store(TW + tw_bucket_range, tw_preload, mask=(_tw_mask < 0))
+    _tw_mask = (_tw_mask < 0)
+    # tl.device_print("_tw_mask: ", _tw_mask)
+    tl.store(TW + tw_bucket_range, tw_preload, mask=_tw_mask)
 
     pw_bucket_range = tl.arange(0, 4096)
     pw_preload = tl.load(PW + pw_bucket_range,
-                         eviction_policy='evict_last', volatile=True)
+                         eviction_policy='evict_last')
     _pw_mask = tl.load(pw_mask + pw_bucket_range)
-    tl.store(PW + pw_bucket_range, pw_preload, mask=(_pw_mask < 0))
+    _pw_mask = (_pw_mask < 0)
+    # tl.device_print("_pw_mask: ", _pw_mask)
+    tl.store(PW + pw_bucket_range, pw_preload, mask=_pw_mask)
 
     # pyre-ignore[61]
     for start_n in range(low, high, BLOCK_N):
