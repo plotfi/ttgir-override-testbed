@@ -225,6 +225,7 @@ def _ragged_hstu_attn_fwd_one_block(  # noqa: C901
     ts_0,
     TW,
     PW,
+    TW_PRELOAD,
     alpha,
     MAX_SEQ_LEN,
     num_buckets,
@@ -272,10 +273,7 @@ def _ragged_hstu_attn_fwd_one_block(  # noqa: C901
             ts = ts.to(tl.int32)
             ts = tl.where(ts > 0, ts, 0)
             ts = tl.where(ts < num_buckets, ts, num_buckets)
-            ts_w = tl.load(
-                TW + ts,
-                mask=mask_m[:, None] and mask_n[None, :],
-            )
+            ts_w = tl.gather(TW_PRELOAD, ts)
             attn_bias = attn_bias + ts_w
         if USE_POS_BIAS:
             pos_offs_m = offs_m
@@ -513,6 +511,10 @@ def _ragged_hstu_attn_fwd(  # noqa C901
             K_block_ptr = tl.advance(K_block_ptr, (0, low))
             V_block_ptr = tl.advance(V_block_ptr, (low, 0))
 
+    tw_bucket_range = tl.arange(0, 2048)
+    TW_PRELOAD = tl.load(TW + tw_bucket_range)
+    TW_PRELOAD = tl.local_copy(TW_PRELOAD)
+
     # pyre-ignore[61]
     for start_n in range(low, high, BLOCK_N):
         acc += _ragged_hstu_attn_fwd_one_block(
@@ -536,6 +538,7 @@ def _ragged_hstu_attn_fwd(  # noqa C901
             ts_0=ts_0 if ATTN_BIAS_TYPE == "fused" and USE_TIME_BIAS else None,
             TW=TW,
             PW=PW,
+            TW_PRELOAD=TW_PRELOAD,
             alpha=alpha,
             MAX_SEQ_LEN=MAX_SEQ_LEN,
             num_buckets=num_buckets,
@@ -598,6 +601,7 @@ def _ragged_hstu_attn_fwd(  # noqa C901
                     ),
                     TW=TW,
                     PW=PW,
+                    TW_PRELOAD=TW_PRELOAD,
                     alpha=alpha,
                     MAX_SEQ_LEN=MAX_SEQ_LEN,
                     num_buckets=num_buckets,
